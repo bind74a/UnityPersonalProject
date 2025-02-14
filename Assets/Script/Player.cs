@@ -10,6 +10,7 @@ public class Player : MonoBehaviour
     Rigidbody2D playRigi;
     CapsuleCollider2D playColl;
     SpriteRenderer playSprite;
+    Animator playanim;
 
     public float playSpeed;
 
@@ -22,6 +23,8 @@ public class Player : MonoBehaviour
     {
         playRigi = GetComponent<Rigidbody2D>();
         playColl = GetComponent<CapsuleCollider2D>();
+        playSprite = GetComponent<SpriteRenderer>();
+        playanim = GetComponent<Animator>();
     }
 
     void Update()
@@ -38,7 +41,8 @@ public class Player : MonoBehaviour
 
     private void LateUpdate()
     {
-        if(inputVec.x != 0)
+        playanim.SetFloat("isRun", inputVec.magnitude);//.magnitude 데이터 값 변화 감지 함수
+        if (inputVec.x != 0)
         {
             playSprite.flipX = inputVec.x < 0;//왼쪽키 입력시에만 true 값으로 변환
         }
