@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
 public class Player : MonoBehaviour
@@ -51,6 +52,12 @@ public class Player : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D collision)//지역 도착시 미니게임 실행 구현
     {
-        
+        switch(collision.gameObject.name)
+        {
+            case "PlaneGamePanel":
+                SceneManager.LoadScene("Game1Scene");
+
+                break;
+        }
     }
 }

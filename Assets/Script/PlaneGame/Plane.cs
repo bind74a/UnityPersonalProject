@@ -42,10 +42,7 @@ public class Plane : MonoBehaviour
         {
             if(deathCooldown <= 0f)
             {
-                if (Input.GetKeyDown(KeyCode.Space) || Input.GetMouseButtonDown(0))
-                {
-                    gameManager.RestartGame();
-                }
+                
             }
             else
             {
@@ -60,6 +57,9 @@ public class Plane : MonoBehaviour
             }
         }
     }
+    /// <summary>
+    /// 비행기 움직임 로직
+    /// </summary>
     private void FixedUpdate()
     {
         if (isDead) return; //비행기가 죽게되면 리턴이 되서 아래기능이 전부 실행이 안됀다
@@ -82,7 +82,6 @@ public class Plane : MonoBehaviour
         //Quaternion.Euler(x, y, z); 오브젝트을 회전 시키는 함수 (원기둥을 생각하면 됀다)
 
     }
-
     private void OnCollisionEnter2D(Collision2D collision)
     {
         if (godMode) return;

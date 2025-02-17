@@ -8,9 +8,14 @@ public class GameManager : MonoBehaviour
     static GameManager gameManager;
     public static GameManager Instance;
 
+    
+
     private int planeGameScore = 0;
 
     private string currentSceneName;
+
+    UIMnager uiMnager;
+    public UIMnager uIMnager { get{ return uiMnager; } }
 
     private void Awake()
     {
@@ -22,38 +27,33 @@ public class GameManager : MonoBehaviour
         {
             Destroy(gameObject);
         }    
+
+        uiMnager = FindObjectOfType<UIMnager>();
     }
 
     void Start()
     {
-        
-    }
-
-    public void GameOver()
-    {
-
-    }
-
-    public void RestartGame()
-    {
-        string currentSceneName = SceneManager.GetActiveScene().name;//현재 씬의 이름을 변수에 넣는다
-
-        switch (currentSceneName)//현재의 씬에 따라 리스타트 버튼 변화
+        string currentSceneName = SceneManager.GetActiveScene().name;
+        switch(currentSceneName)
         {
+            case "LobbyScene":
+                Time.timeScale = 1f;
+                break;
             case "Game1Scene":
-                SceneManager.LoadScene("Game1Scene");
+                Time.timeScale = 0f;
+                uiMnager.UpdateScore(0);
                 break;
         }
         
     }
-
-    public void RetunLobby()
+    public void GameOver()
     {
-        SceneManager.LoadScene("LobbyScene");
+        uiMnager.SetRestart();
     }
 
     public void PlaneAddScore(int score)
     {
         planeGameScore += score;
+        uiMnager.UpdateScore(planeGameScore);
     }
 }

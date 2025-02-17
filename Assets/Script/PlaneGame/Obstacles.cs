@@ -24,7 +24,12 @@ public class Obstacles : MonoBehaviour
     {
         gameManager = GameManager.Instance;
     }
-
+    /// <summary>
+    /// 장애물 랜덤배치 연산 로직
+    /// </summary>
+    /// <param name="lastPosition"></param>
+    /// <param name="obstaclCount"></param>
+    /// <returns></returns>
     public Vector3 SetRandomPlace(Vector3 lastPosition, int obstaclCount)
     {
         float holeSize = Random.Range(holeSizeMin, holeSizeMex);
@@ -44,7 +49,7 @@ public class Obstacles : MonoBehaviour
     /// 충돌후 충돌 범위를 나올때 점수 증가 로직
     /// </summary>
     /// <param name="collision"></param>
-    private void OnCollisionExit2D(Collision2D collision)
+    private void OnTriggerExit2D(Collider2D collision)
     {
         Plane player = collision.gameObject.GetComponent<Plane>();//충돌한 오브젝트에 Plane 컴파운드가 있스면 true 없으면 null
         if (player != null)
