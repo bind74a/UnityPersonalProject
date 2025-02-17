@@ -18,6 +18,13 @@ public class Obstacles : MonoBehaviour
     //장애물 폭 간격 지정 변수
     public float widthPadding = 4f;
 
+    GameManager gameManager;
+
+    private void Start()
+    {
+        gameManager = GameManager.Instance;
+    }
+
     public Vector3 SetRandomPlace(Vector3 lastPosition, int obstaclCount)
     {
         float holeSize = Random.Range(holeSizeMin, holeSizeMex);
@@ -30,6 +37,19 @@ public class Obstacles : MonoBehaviour
 
         placePosition.y = Random.Range(lowPosy,highPosY);
 
+        transform.position = placePosition;
         return placePosition;
+    }
+    /// <summary>
+    /// 충돌후 충돌 범위를 나올때 점수 증가 로직
+    /// </summary>
+    /// <param name="collision"></param>
+    private void OnCollisionExit2D(Collision2D collision)
+    {
+        Plane player = collision.gameObject.GetComponent<Plane>();//충돌한 오브젝트에 Plane 컴파운드가 있스면 true 없으면 null
+        if (player != null)
+        {
+            gameManager.PlaneAddScore(1);
+        }
     }
 }

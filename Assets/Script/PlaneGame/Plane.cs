@@ -16,15 +16,14 @@ public class Plane : MonoBehaviour
 
     public bool godMode = false;
 
-    private void Awake()
-    {
-        anim = GetComponentInChildren<Animator>();
-        rigid = GetComponent<Rigidbody2D>();
-  
-    }
+    GameManager gameManager;
+
     // Start is called before the first frame update
     void Start()
     {
+        gameManager = GameManager.Instance;
+        anim = GetComponentInChildren<Animator>();
+        rigid = GetComponent<Rigidbody2D>();
 
         if (anim == null)
         {
@@ -43,7 +42,10 @@ public class Plane : MonoBehaviour
         {
             if(deathCooldown <= 0f)
             {
-                //게임 재시작 구간
+                if (Input.GetKeyDown(KeyCode.Space) || Input.GetMouseButtonDown(0))
+                {
+                    gameManager.RestartGame();
+                }
             }
             else
             {
@@ -91,5 +93,6 @@ public class Plane : MonoBehaviour
         deathCooldown = 1f;
 
         anim.SetInteger("isDie", 1);//"isDie" 라는 이름의 애니메이션 수치를 1로 만든다
+        gameManager.GameOver();
     }
 }
