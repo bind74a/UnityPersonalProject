@@ -43,6 +43,9 @@ public class GameManager : MonoBehaviour
                 Time.timeScale = 0f;
                 uiMnager.UpdateScore(0);
                 break;
+            case "Game2Scene":
+                Time.timeScale = 1f;
+                break;
         }
         
     }
