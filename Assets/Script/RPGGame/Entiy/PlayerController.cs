@@ -24,7 +24,7 @@ public class PlayerController : BaseController
 
         lookDirection = (worldPos - (Vector2)transform.position);
         
-        if(lookDirection.magnitude < .9f)// 0을뺏는데 움직임 내일 선생님 한테 물어볼꺼
+        if(lookDirection.magnitude < 0.9f)
         {
             lookDirection = Vector2.zero;
         }

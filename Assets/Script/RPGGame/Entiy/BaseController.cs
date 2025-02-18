@@ -22,9 +22,13 @@ public class BaseController : MonoBehaviour
     private Vector2 knockback = Vector2.zero;
     private float knockbackDuration = 0.0f;
 
+    protected AnimationHandler animationHandler;
+    protected StatHandler statHandler;
     protected virtual void Awake()
     {
         rigid = GetComponent<Rigidbody2D>();
+        animationHandler = GetComponent<AnimationHandler>();
+        statHandler = GetComponent<StatHandler>();
     }
 
     protected virtual void Start()
@@ -34,13 +38,13 @@ public class BaseController : MonoBehaviour
 
     protected virtual void Update()
     {
-        HandleAction();
-        Rotate(lookDirection);
+        HandleAction();//플레이어가 방향키누른 값과 마우스 위치값이 연산으로 movementDirection, lookDirection변수에 넣어짐
+        Rotate(lookDirection);//마우스 위치값을 보내고 캐릭터의 시야 각도값 연산
     }
 
     protected virtual void FixedUpdate()
     {
-        Movement(movementDirection);
+        Movement(movementDirection);//위에서 정해진 플레이어의 이동값이 들어감
         if(knockbackDuration > 0.0f)//넉백지속시간이 0 보다 클시 작동
         {
             knockbackDuration -= Time.fixedDeltaTime;
@@ -54,7 +58,7 @@ public class BaseController : MonoBehaviour
     
     private void Movement(Vector2 direction)
     {
-        direction = direction * 5;
+        direction = direction * statHandler.Speed;
         if(knockbackDuration > 0.0f)//넉백지속시간이 0 보다 클시 작동
         {
             direction *= 0.2f;
@@ -62,18 +66,19 @@ public class BaseController : MonoBehaviour
         }
 
         rigid.velocity = direction;
+        animationHandler.Move(direction);
     }
 
     private void Rotate(Vector2 direction)
     {
-        float rotZ = Mathf.Atan2(direction.y, direction.x) * Mathf.Rad2Deg;
+        float rotZ = Mathf.Atan2(direction.y, direction.x) * Mathf.Rad2Deg;//마우스의 위치를 각도로 변환
         bool isLeft = Mathf.Abs(rotZ) > 90f; //플레이어의 시야가 90도이상일때 true 
 
         chracterRenderer.flipX = isLeft;
 
         if(weaponPivot != null)
         {
-            weaponPivot.rotation = Quaternion.Euler(0f, 0f, rotZ);
+            weaponPivot.rotation = Quaternion.Euler(0f, 0f, rotZ);//Quaternion.Euler 오브젝트를 원기둥 기준으로 회전 하는 함수
         }
     }
 
