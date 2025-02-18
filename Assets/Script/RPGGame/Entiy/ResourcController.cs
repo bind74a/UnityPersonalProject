@@ -31,10 +31,10 @@ public class ResourcController : MonoBehaviour
     /// </summary>
     private void Update()
     {
-        if (timeSinceLastChange < healthChangeDelay)
+        if (timeSinceLastChange < healthChangeDelay)//float.MaxValue < 0.5f
         { 
-            timeSinceLastChange += Time.deltaTime;
-            if (timeSinceLastChange >= healthChangeDelay)
+            timeSinceLastChange += Time.deltaTime;//float.MaxValue 프레임 순으로 증가
+            if (timeSinceLastChange >= healthChangeDelay)// 두값이 같거나 float.MaxValue 클때
             {
                 anim.InvincibilityEnd();//무적시간 종료
             }

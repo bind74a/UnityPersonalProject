@@ -38,4 +38,34 @@ public class WeaponHandler : MonoBehaviour
 
     private Animator anim;
     private SpriteRenderer weaponRenderer;
+
+    protected virtual void Awake()
+    {
+        Controller = GetComponentInParent<BaseController>();
+        anim = GetComponentInChildren<Animator>();
+        weaponRenderer = GetComponentInChildren<SpriteRenderer>();
+
+        anim.speed = 1.0f / delay;
+        transform.localScale = Vector3.one * weaponSize;
+    }
+
+    protected virtual void Start()
+    {
+
+    }
+
+    public virtual void Attack()
+    {
+        AttackAnimation();
+    }
+
+    public void AttackAnimation()
+    {
+        anim.SetTrigger(IsAttack);
+    }
+
+    public virtual void Rotate(bool isLeft)
+    {
+        weaponRenderer.flipY = isLeft;
+    }
 }
