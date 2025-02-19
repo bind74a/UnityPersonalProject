@@ -13,7 +13,13 @@ public class Player : MonoBehaviour
     SpriteRenderer playSprite;
     Animator playanim;
 
+    public GameManager gameManager;
+
     public float playSpeed;
+
+    Vector3 playDirection;
+    //레이캐스트로 감지된 오브젝트를 보관하는 변수
+    GameObject scanObject;
 
 
     //플레이어 입력 변수
@@ -30,14 +36,51 @@ public class Player : MonoBehaviour
 
     void Update()
     {
-        inputVec.x = Input.GetAxisRaw("Horizontal");
-        inputVec.y = Input.GetAxisRaw("Vertical");
+        inputVec.x = gameManager.isAction ? 0 : Input.GetAxisRaw("Horizontal");
+        inputVec.y = gameManager.isAction ? 0 : Input.GetAxisRaw("Vertical");
+
+        if(inputVec.y == 1)
+        {
+            playDirection = Vector3.up;
+        }
+        else if (inputVec.y == -1)
+        {
+            playDirection = Vector3.down;
+        }
+        else if(inputVec.x == 1)
+        {
+            playDirection = Vector3.right;
+        }
+        else if(inputVec.x == -1)
+        {
+            playDirection = Vector3.left;
+        }
+
+        //대화 창 테스트 
+        if (Input.GetButtonDown("Jump") && scanObject != null)
+        {
+            gameManager.LobbyAction(scanObject);
+        }
+        
     }
 
     private void FixedUpdate()
     {
         Vector2 speedLimit = inputVec.normalized * playSpeed * Time.fixedDeltaTime;//변화값 고정
         playRigi.MovePosition(playRigi.position + speedLimit);//.MovePosition(현재위치 + 변화를 줄 수치)
+
+        //레이캐스트 캐릭터 앞 오브젝트 스캔
+        Debug.DrawRay(playRigi.position,playDirection * 0.7f, new Color(0,1,0));
+        RaycastHit2D rayHit = Physics2D.Raycast(playRigi.position, playDirection,0.7f,LayerMask.GetMask("Object"));
+
+        if(rayHit.collider != null)
+        {
+            scanObject = rayHit.collider.gameObject;
+        }
+        else
+        {
+            scanObject = null;
+        }
     }
 
     private void LateUpdate()

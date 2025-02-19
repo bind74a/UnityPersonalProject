@@ -2,13 +2,18 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using UnityEngine.UI;
 
 public class GameManager : MonoBehaviour
 {
     static GameManager gameManager;
     public static GameManager Instance;
 
-    
+    //대화창
+    public GameObject talkPanel;
+    public Text talkText;
+    public GameObject scanObject;
+    public bool isAction;
 
     private int planeGameScore = 0;
 
@@ -49,6 +54,25 @@ public class GameManager : MonoBehaviour
         }
         
     }
+    /// <summary>
+    /// 대화 액션
+    /// </summary>
+    /// <param name="scanObj"></param>
+    public void LobbyAction(GameObject scanObj)
+    {
+        if (isAction)
+        {
+            isAction = false;
+        }
+        else
+        {
+            isAction = true;
+            scanObject = scanObj;
+            talkText.text = "test 대화액션";
+        }
+        talkPanel.SetActive(isAction);
+    }
+
     public void GameOver()
     {
         uiMnager.SetRestart();
