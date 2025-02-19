@@ -162,6 +162,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 39bdb132e7b6a1f419074f6d03269786, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  chracterRenderer: {fileID: 2579744387806406419}
+  weaponPivot: {fileID: 2224177435310186518}
+  WeaponPrefab: {fileID: 6632493705932712135, guid: 70c379737e0e4ab479f0fe75fb7a08f5, type: 3}
+  followRange: 15
 --- !u!1 &3886326892726456998
 GameObject:
   m_ObjectHideFlags: 0

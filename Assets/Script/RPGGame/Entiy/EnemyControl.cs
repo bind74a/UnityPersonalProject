@@ -63,7 +63,7 @@ public class EnemyControl : BaseController
                 */
                 if(hit.collider != null && layerMaskTarget == (layerMaskTarget | (1<<hit.collider.gameObject.layer)))
                 {
-
+                    isAttacking = true;
                 }
 
 
@@ -73,5 +73,11 @@ public class EnemyControl : BaseController
 
             movementDirection = direction;
         }
+    }
+
+    public override void Death()
+    {
+        base.Death();
+        enemyManager.ReMoveEnemyOnDeath(this);
     }
 }

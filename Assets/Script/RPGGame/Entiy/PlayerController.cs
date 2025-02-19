@@ -5,13 +5,14 @@ using UnityEngine;
 public class PlayerController : BaseController
 {
     private Camera camera;
+    private GameManager gameManager;
 
-    // Start is called before the first frame update
-    protected override void Start()
+    public void Init(GameManager gameManager)
     {
-        base.Start();
+        this.gameManager = gameManager;
         camera = Camera.main;
     }
+    
 
     protected override void HandleAction()
     {
@@ -34,5 +35,11 @@ public class PlayerController : BaseController
         }
 
         isAttacking = Input.GetMouseButton(0);
+    }
+
+    public override void Death()
+    {
+        base.Death();
+        gameManager.GameOver();
     }
 }

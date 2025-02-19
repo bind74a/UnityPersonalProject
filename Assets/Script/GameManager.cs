@@ -8,6 +8,14 @@ public class GameManager : MonoBehaviour
 {
     static GameManager gameManager;
     public static GameManager Instance;
+    //탑뷰 미니게임 플레이어
+    public PlayerController topDownPlayer;
+    private ResourcController tdPlayerResourceController;
+
+    [SerializeField] private int currentWaveIndex = 0;
+
+    private EnemyManager enemyManager;
+
 
     //대화창
     public GameObject talkPanel;
@@ -24,6 +32,7 @@ public class GameManager : MonoBehaviour
 
     private void Awake()
     {
+        currentSceneName = SceneManager.GetActiveScene().name;
         if (Instance == null)
         {
             Instance = this;
@@ -31,14 +40,27 @@ public class GameManager : MonoBehaviour
         else
         {
             Destroy(gameObject);
-        }    
+        }
 
         uiMnager = FindObjectOfType<UIMnager>();
+
+        switch (currentSceneName)
+        {
+            case "Game2Scene":
+                //탑다운 미니게임 설정
+                topDownPlayer = FindObjectOfType<PlayerController>();
+                topDownPlayer.Init(this);
+
+                enemyManager = GetComponentInChildren<EnemyManager>();
+                enemyManager.Init(this);
+                break;
+
+        }
     }
 
     void Start()
     {
-        string currentSceneName = SceneManager.GetActiveScene().name;
+        
         switch(currentSceneName)
         {
             case "LobbyScene":
@@ -54,6 +76,47 @@ public class GameManager : MonoBehaviour
         }
         
     }
+    #region //탑다운 미니게임 옵션
+    public void StartGame()
+    {
+        if (currentSceneName == "Game2Scene")
+        {
+            StartNextWave();
+        }
+        
+    }
+
+    void StartNextWave()
+    {
+        if (currentSceneName == "Game2Scene")
+        {
+            currentWaveIndex += 1;
+            enemyManager.StartWave(1 + currentWaveIndex / 5);
+        }
+    }
+
+    public void EndOfWave()
+    {
+        if (currentSceneName == "Game2Scene")
+        {
+            StartNextWave();
+        }
+    }
+
+    #endregion
+
+    private void Update()
+    {
+        if(currentSceneName == "Game2Scene")
+        {
+            if (Input.GetKeyDown(KeyCode.Space))
+            {
+                StartGame();
+            }
+        }
+        
+    }
+
     /// <summary>
     /// 대화 액션
     /// </summary>
@@ -75,7 +138,16 @@ public class GameManager : MonoBehaviour
 
     public void GameOver()
     {
-        uiMnager.SetRestart();
+        switch(currentSceneName)
+        {
+            case "Game1Scene":
+                uiMnager.SetRestart();
+                break;
+            case "Game2Scene":
+                enemyManager.StopWave();
+                break;
+        }
+        
     }
 
     public void PlaneAddScore(int score)
