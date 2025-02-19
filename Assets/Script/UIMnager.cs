@@ -4,6 +4,13 @@ using TMPro;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
+public enum UIState
+{
+    Home,
+    Game,
+    GameOver
+
+}
 public class UIMnager : MonoBehaviour
 {
     public TextMeshProUGUI scoreText;

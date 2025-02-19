@@ -14,6 +14,7 @@ public class Player : MonoBehaviour
     Animator playanim;
 
     public GameManager gameManager;
+    public AudioClip moveClip;
 
     public float playSpeed;
 
@@ -24,7 +25,6 @@ public class Player : MonoBehaviour
 
     //플레이어 입력 변수
     public Vector2 inputVec;
-
 
     private void Awake()
     {
@@ -39,22 +39,8 @@ public class Player : MonoBehaviour
         inputVec.x = gameManager.isAction ? 0 : Input.GetAxisRaw("Horizontal");
         inputVec.y = gameManager.isAction ? 0 : Input.GetAxisRaw("Vertical");
 
-        if(inputVec.y == 1)
-        {
-            playDirection = Vector3.up;
-        }
-        else if (inputVec.y == -1)
-        {
-            playDirection = Vector3.down;
-        }
-        else if(inputVec.x == 1)
-        {
-            playDirection = Vector3.right;
-        }
-        else if(inputVec.x == -1)
-        {
-            playDirection = Vector3.left;
-        }
+        playDirection = new Vector3(inputVec.x, inputVec.y, 0).normalized;
+ 
 
         //대화 창 테스트 
         if (Input.GetButtonDown("Jump") && scanObject != null)
