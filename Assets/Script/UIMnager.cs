@@ -39,25 +39,20 @@ public class UIMnager : MonoBehaviour
         {
             Instance = this;
         }
-        else
-        {
-            Destroy(gameObject);
-        }
         currentSceneName = SceneManager.GetActiveScene().name;
        
         homeUI = GetComponentInChildren<HomeUI>(true);
-        homeUI.Init(this);
+        if (homeUI != null) homeUI.Init(this);
         gameUI = GetComponentInChildren<GameUI>(true);
-        gameUI.Init(this);
+        if (gameUI != null) gameUI.Init(this);
         gameOverUI = GetComponentInChildren<GameOverUI>(true);
-        gameOverUI.Init(this);
+        if (gameOverUI != null) gameOverUI.Init(this);
 
         ChangeState(UIState.Home);
     }
     // Start is called before the first frame update
     void Start()
     {
-
         //다른씬에 그버튼이 없을때 null 값이 아닐떄만 작동하게해서 오류 방지
         if (retayBtn != null) retayBtn.SetActive(false);
         if (lobbyBtn != null) lobbyBtn.SetActive(false);
@@ -76,9 +71,9 @@ public class UIMnager : MonoBehaviour
     public void ChangeState(UIState state)
     {
         currentstate = state;
-        homeUI.SetActive(currentstate);
-        gameUI.SetActive(currentstate);
-        gameOverUI.SetActive(currentstate);
+        if (homeUI != null) homeUI.SetActive(currentstate);
+        if (gameUI != null) gameUI.SetActive(currentstate);
+        if (gameOverUI != null) gameOverUI.SetActive(currentstate);
     }
 
     public void ChangeWave(int waveIndex)

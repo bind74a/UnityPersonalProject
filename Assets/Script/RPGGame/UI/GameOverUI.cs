@@ -20,7 +20,6 @@ public class GameOverUI : BaseUI
 
     public void OnClickRestartButton()
     {
-        //리스트트 버튼 연동
         ButtonManager.RestartGame();
     }
 

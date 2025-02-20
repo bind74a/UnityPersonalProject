@@ -39,7 +39,22 @@ public class Player : MonoBehaviour
         inputVec.x = gameManager.isAction ? 0 : Input.GetAxisRaw("Horizontal");
         inputVec.y = gameManager.isAction ? 0 : Input.GetAxisRaw("Vertical");
 
-        playDirection = new Vector3(inputVec.x, inputVec.y, 0).normalized;
+        if (inputVec.x == 1)
+        {
+            playDirection = Vector3.right;
+        }
+        else if (inputVec.x == -1)
+        {
+            playDirection = Vector3.left;
+        }
+        else if(inputVec.y == 1)
+        {
+            playDirection = Vector3.up;
+        }
+        else if(inputVec.y == -1)
+        {
+            playDirection = Vector3.down;
+        }
  
 
         //대화 창 테스트 
@@ -85,7 +100,9 @@ public class Player : MonoBehaviour
         {
             case "PlaneGamePanel":
                 SceneManager.LoadScene("Game1Scene");
-
+                break;
+            case "TopDownGamePanel":
+                SceneManager.LoadScene("Game2Scene");
                 break;
         }
     }

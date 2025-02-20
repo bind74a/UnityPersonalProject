@@ -11,7 +11,7 @@ public class ButtonManager : MonoBehaviour
     }
 
 
-    public void RestartGame()
+    public static void RestartGame()
     {
         string currentSceneName = SceneManager.GetActiveScene().name;//현재 씬의 이름을 변수에 넣는다
 

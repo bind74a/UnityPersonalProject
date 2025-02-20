@@ -17,11 +17,21 @@ public class EnemyControl : BaseController
 
     protected float DistacnToTarget()
     {
+        if(target == null)
+        {
+            return 0f;
+        }
+
         return Vector3.Distance(transform.position, target.position);
     }
 
     protected Vector2 DirectionToTarget()//타겟과 오브젝트의 거리 계산
     {
+        if (target == null)
+        {
+            return Vector2.zero;
+        }
+
         return (target.position - transform.position).normalized;
     }
 
