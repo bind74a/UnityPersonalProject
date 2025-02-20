@@ -23,10 +23,19 @@ public class GameManager : MonoBehaviour
     public GameObject scanObject;
     public bool isAction;
 
+
+    //비행기 점수 시스템
     private int planeGameScore = 0;
+
+    int planeGameBestScore = 0;
+    private int PlaneGameBestScore { get => planeGameBestScore; }
 
     private string currentSceneName;
 
+    private const string PlaneScorekey = "PlaneBestScore";
+    
+    
+    //ui매니져 연동
     UIMnager uiMnager;
     public UIMnager uIMnager { get{ return uiMnager; } }
 
@@ -43,6 +52,9 @@ public class GameManager : MonoBehaviour
         }
 
         uiMnager = FindObjectOfType<UIMnager>();
+
+        planeGameBestScore = PlayerPrefs.GetInt(PlaneScorekey, 0);
+        
 
         switch (currentSceneName)
         {
@@ -69,6 +81,7 @@ public class GameManager : MonoBehaviour
             case "Game1Scene":
                 Time.timeScale = 0f;
                 uiMnager.UpdateScore(0);
+                uiMnager.BestScoreUpdate(planeGameBestScore);
                 break;
             case "Game2Scene":
                 Time.timeScale = 1f;
@@ -135,7 +148,6 @@ public class GameManager : MonoBehaviour
         }
         talkPanel.SetActive(isAction);
     }
-
     public void GameOver()
     {
         switch(currentSceneName)
@@ -154,5 +166,15 @@ public class GameManager : MonoBehaviour
     {
         planeGameScore += score;
         uiMnager.UpdateScore(planeGameScore);
+    }
+
+    public void BestUpdateScore()
+    {
+        if(planeGameScore > planeGameBestScore)
+        {
+            planeGameBestScore = planeGameScore;
+
+            PlayerPrefs.SetInt(PlaneScorekey, planeGameBestScore);
+        }
     }
 }

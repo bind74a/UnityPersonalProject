@@ -20,6 +20,9 @@ public class ButtonManager : MonoBehaviour
             case "Game1Scene":
                 SceneManager.LoadScene("Game1Scene");
                 break;
+            case "Game2Scene":
+                SceneManager.LoadScene("Game2Scene");
+                break;
         }
 
     }

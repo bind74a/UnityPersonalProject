@@ -13,7 +13,7 @@ public class HomeUI : BaseUI
         base.Init(uiMnager);
 
         startButton.onClick.AddListener(OnClickStartButton);
-        exitButton.onClick.AddListener(OnClickExitButton)
+        exitButton.onClick.AddListener(OnClickExitButton);
     }
 
     public void OnClickStartButton()

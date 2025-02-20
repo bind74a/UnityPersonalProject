@@ -93,5 +93,6 @@ public class Plane : MonoBehaviour
 
         anim.SetInteger("isDie", 1);//"isDie" 라는 이름의 애니메이션 수치를 1로 만든다
         gameManager.GameOver();
+        gameManager.BestUpdateScore();
     }
 }
