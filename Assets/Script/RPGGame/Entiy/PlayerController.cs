@@ -4,13 +4,13 @@ using UnityEngine;
 
 public class PlayerController : BaseController
 {
-    private Camera camera;
+    private Camera playercamera;
     private GameManager gameManager;
 
     public void Init(GameManager gameManager)
     {
         this.gameManager = gameManager;
-        camera = Camera.main;
+        playercamera = Camera.main;
     }
     
 
@@ -21,7 +21,7 @@ public class PlayerController : BaseController
         movementDirection = new Vector2(horizontal,vertical). normalized;
 
         Vector2 mousePosition = Input.mousePosition;//마우스의 위치를 변수로 지정
-        Vector2 worldPos = camera.ScreenToWorldPoint(mousePosition);//마우스의 위치를 씬화면 기준으로 움직인다
+        Vector2 worldPos = playercamera.ScreenToWorldPoint(mousePosition);//마우스의 위치를 씬화면 기준으로 움직인다
 
         lookDirection = (worldPos - (Vector2)transform.position);
         

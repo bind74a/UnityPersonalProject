@@ -46,7 +46,7 @@ public class EnemyManager : MonoBehaviour
     private IEnumerator SpawnWave(int waveCount)
     {
         enemySpawnComplite = false;
-        yield return new WaitForSeconds(timeBetweenSpawns);
+        yield return new WaitForSeconds(timeBetweenWaves);
 
         for (int i = 0; i < waveCount; i++)
         {

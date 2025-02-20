@@ -37,6 +37,7 @@ public class GameManager : MonoBehaviour
     
     //ui매니져 연동
     UIMnager uiMnager;
+    public static bool isFirstLoading = true;
     public UIMnager uIMnager { get{ return uiMnager; } }
 
     private void Awake()
@@ -65,6 +66,10 @@ public class GameManager : MonoBehaviour
 
                 enemyManager = GetComponentInChildren<EnemyManager>();
                 enemyManager.Init(this);
+
+                tdPlayerResourceController = topDownPlayer.GetComponent<ResourcController>();
+                tdPlayerResourceController.RemveHealthChangeEvent(uiMnager.ChangePlayerHP);
+                tdPlayerResourceController.AddHealthChangeEvent(uiMnager.ChangePlayerHP);
                 break;
 
         }
@@ -85,15 +90,26 @@ public class GameManager : MonoBehaviour
                 break;
             case "Game2Scene":
                 Time.timeScale = 1f;
+                if (!isFirstLoading)
+                {
+                    StartGame();
+                }
+                else
+                {
+                    isFirstLoading = false;
+                }
                 break;
         }
         
+        
+
     }
     #region //탑다운 미니게임 옵션
     public void StartGame()
     {
         if (currentSceneName == "Game2Scene")
         {
+            uiMnager.SetPlayGame();
             StartNextWave();
         }
         
@@ -105,6 +121,8 @@ public class GameManager : MonoBehaviour
         {
             currentWaveIndex += 1;
             enemyManager.StartWave(1 + currentWaveIndex / 5);
+
+            uiMnager.ChangeWave(currentWaveIndex);
         }
     }
 
@@ -120,13 +138,7 @@ public class GameManager : MonoBehaviour
 
     private void Update()
     {
-        if(currentSceneName == "Game2Scene")
-        {
-            if (Input.GetKeyDown(KeyCode.Space))
-            {
-                StartGame();
-            }
-        }
+
         
     }
 
@@ -157,6 +169,7 @@ public class GameManager : MonoBehaviour
                 break;
             case "Game2Scene":
                 enemyManager.StopWave();
+                uiMnager.SetGameOver();
                 break;
         }
         

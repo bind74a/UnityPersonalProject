@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -16,6 +17,8 @@ public class ResourcController : MonoBehaviour
     public float MaxHealth => statHandler.Health;
 
     public AudioClip damageClip;
+
+    private Action<float, float> OnChangeHealth;
 
     private void Awake()
     {
@@ -61,6 +64,8 @@ public class ResourcController : MonoBehaviour
         CurrentHealth = CurrentHealth < 0 ? 0 : CurrentHealth;//체력이 0 이하로 않떨어지가 하는곳
         //CurrentHealth 이 0 보다 작을시 0 아날시 CurrentHealth 값
 
+        OnChangeHealth?.Invoke(CurrentHealth, MaxHealth);
+
         if (change <0)
         {
             anim.Damage();
@@ -82,5 +87,15 @@ public class ResourcController : MonoBehaviour
     private void Death()
     {
         baseController.Death();
+    }
+
+    public void AddHealthChangeEvent(Action<float,float> action)
+    {
+        OnChangeHealth += action;
+    }
+
+    public void RemveHealthChangeEvent(Action<float,float>action)
+    {
+        OnChangeHealth -= action;
     }
 }

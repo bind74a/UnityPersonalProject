@@ -45,11 +45,11 @@ public class UIMnager : MonoBehaviour
         }
         currentSceneName = SceneManager.GetActiveScene().name;
        
-        homeUI = GetComponent<HomeUI>();
+        homeUI = GetComponentInChildren<HomeUI>(true);
         homeUI.Init(this);
-        gameUI = GetComponent<GameUI>();
+        gameUI = GetComponentInChildren<GameUI>(true);
         gameUI.Init(this);
-        gameOverUI = GetComponent<GameOverUI>();
+        gameOverUI = GetComponentInChildren<GameOverUI>(true);
         gameOverUI.Init(this);
 
         ChangeState(UIState.Home);
@@ -57,8 +57,10 @@ public class UIMnager : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        retayBtn.SetActive(false);
-        lobbyBtn.SetActive(false);
+
+        //다른씬에 그버튼이 없을때 null 값이 아닐떄만 작동하게해서 오류 방지
+        if (retayBtn != null) retayBtn.SetActive(false);
+        if (lobbyBtn != null) lobbyBtn.SetActive(false);
     }
 
     public void SetPlayGame()
